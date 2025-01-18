@@ -1,9 +1,22 @@
-window.addEventListener('scroll', function(){
-    const flashCard = document.querySelector('.flash-card');
-    const cardPosition = flashCard.getBoundingClientRect().top;
+document.addEventListener("DOMContentLoaded", () => {
+    const flashCards = document.querySelectorAll(".flash-card");
 
-    if (cardPosition <= window.innerHeight * 0.75){
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                } else {
+                    entry.target.classList.remove("show");
+                }
+            });
+        },
+        {
+            threshold: 0.1, // Trigger when 10% of the card is visible
+        }
+    );
 
-        flashCard.classList.add('show');
-    }
+    flashCards.forEach((card) => {
+        observer.observe(card);
+    });
 });

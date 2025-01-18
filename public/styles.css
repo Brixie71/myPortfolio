@@ -1,22 +1,35 @@
+/* General Body Styling */
 body {
-    margin : 0;
-    background-color: #302b27 ;
-    font-family: Poppins, sans-serif;
+    margin: 0;
+    background-color: #302b27;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* General Header Styling */
+.header-bar {
+    height: 100vh; /* Full-screen height */
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
     justify-content: center;
     align-items: center;
-    display: grid;
-}
-
-.header-bar{
-    padding-top: 300px;
-    width:100%;
-    color: white;
     text-align: center;
-    position: center;
+    color: white;
+    background-color: #302b27;
 }
 
+/* Name Styling */
+.header-bar p {
+    font-size: 0.8rem;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0 0 10px 0; /* Small spacing below the name */
+    color: #ccc; /* Slightly dimmer text for contrast */
+}
+
+/* Title Styling */
 .header-bar h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 0;
     letter-spacing: 4px;
     text-transform: uppercase;
@@ -25,56 +38,85 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+
+/* Flash Card Container */
 .content {
-
-    padding-top: 500px;
-    padding-bottom: 500px;
-    height: 325px;
-    box-shadow: black;
-
+    width: 100%;
 }
 
+/* Flash Card Styling */
 .flash-card {
-    width: 1000px;
-    margin: 200px auto;
+    height: 40vh; /* Full-screen height */
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 325px;
+    margin-bottom: 325px;
     padding: 20px;
     background-color: white;
     color: black;
     border-radius: 10px;
-    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     opacity: 0;
-    transform: translatey(100px);
-    transition: opacity 0.5s ease, transform 1s ease;
-    text-align: justify;
+    transform: translateY(50px); /* Start off-screen */
+    transition: opacity 0.6s ease, transform 0.6s ease;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center; /* Center content vertically */
+    gap: 20px;
+    visibility: hidden; /* Hide initially */
 }
 
-.flash-card.show{
+.flash-card.show {
     opacity: 1;
-    transform: translatey(0);
+    transform: translateY(0); /* Bring into view */
+    visibility: visible;
 }
 
+/* Image in Flash Card */
 .flash-card-image {
-
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
     border-radius: 10px;
     object-fit: cover;
-    margin-right: 20px;
-
 }
 
+/* Flash Card Text Styling */
 .flash-card-text h2 {
-
     margin: 0;
-    font-size: 1.5rem;
+    margin-bottom: 50px;
+    font-size: 2rem;
     color: #333;
-
+    text-align: left;
 }
 
 .flash-card-text p {
     margin: 10px 0 0;
     font-size: 1rem;
     color: #555;
+    text-align: justify;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+    .flash-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between; /* Space between image and text */
+    }
+
+    .flash-card-text {
+        text-align: left;
+    }
+}
+
+@media (min-width: 1024px) {
+    .flash-card {
+        max-width: 1000px;
+    }
+
+    .header-bar h1 {
+        font-size: 3rem;
+    }
 }
