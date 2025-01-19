@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Flash Card Animation
-    
+
     const flashCards = document.querySelectorAll(".flash-card");
     const flashCardObserver = new IntersectionObserver(
         (entries) => {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("click", () => {
             const target = document.querySelector(item.getAttribute("data-target"));
             if (target) {
-                const offset = 250;
+                const offset = window.innerWidth <= 480 ? 100 : 250;
                 scrollToSection(target, offset);
                 carouselItems.forEach((ci) => ci.classList.remove("active"));
                 item.classList.add("active");
