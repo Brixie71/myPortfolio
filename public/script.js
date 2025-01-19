@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Select the elements to animate
-    const animatedElements = document.querySelectorAll('.animated-name, .animated-title');
 
-    // Create an Intersection Observer instance
+    // Title and Name Animations
+
+    const animatedElements = document.querySelectorAll('.animated-name, .animated-title');
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Flash Card Animation
+    
     const flashCards = document.querySelectorAll(".flash-card");
-
     const flashCardObserver = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
