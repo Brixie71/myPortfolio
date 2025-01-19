@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Website- Introduction</title>
+    <title>Portfolio Website - Introduction</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Title -->
-    
-    <header class="header-bar">
-        <p>Jhon Brix Brion</p>
-        <h1>The New Chapter Begins!</h1>
+    <!-- Title Section -->
+    <header class="header-bar" id="home">
+        <p class="animated-name">Jhon Brix Brion</p>
+        <h1 class="animated-title">The New Chapter Begins!</h1>
     </header>
 
     <!-- Flash Cards -->
     <div class="content">
-        <div class="flash-card">
-            <img src="Images/flashCardIMG.JPG" alt="Jhon Brix's Photo" class="flash-card-image">
+        <div class="flash-card" id="card1">
+            <img src="Images/flashCardIMG.JPG" alt="Jhon Brix's Photo" class="flash-card-image card1">
             <div class="flash-card-text">
                 <h2>Hi! I'm Jhon Brix!</h2>
                 <p>
-                    But you can call me Brix, I've been thinking of a job that I would pursue for a few months after I graduated back in September 2024. 
+                    But you can call me Brix, I've been looking of a job that I would pursue for a few months after I graduated back in September 2024. 
                     I was looking for a job but couldn't really find one related to my field, so I thought to myself, <br><br> 
                     "Is there a chance that I could land in a big tech company?"
                     <br><br> Turns out I was lucky to get an opportunity
@@ -30,19 +29,38 @@
             </div>
         </div>
 
-        <div class="flash-card">
+        <div class="flash-card" id="card2">
             <div class="flash-card-text">
                 <h2>So, What About Me?</h2>
                 <p>
-                    I'm 22 Year's old, old enought to know what matters more. I'm an only child so I'm used to being alone at home, but not really far from home.<br><br>
+                    I'm 22 years old, old enough to know what matters more. I'm an only child, so I'm used to being alone at home, but not really far from home.<br><br>
                     Leaving home would take a lot of getting used to, especially when you've got to do things for your family, right? <br><br>
-
-                    My Passion and Curiosity are the tools that I would use to push through beyond my comfort zone, even though I tend to overcomplicate things. LOL
+                    My passion and curiosity are the tools that I would use to push through beyond my comfort zone, even though I tend to overcomplicate things. LOL
                 </p>
             </div>
-            <img src="Images/flashCard2IMG.JPG" alt="Jhon Brix's Photo" class="flash-card-image">
+            <img src="Images/flashCard2IMG.JPG" alt="Jhon Brix's Photo" class="flash-card-image card2">
+        </div>
+
+        <div class="flash-card" id="card3">
+            <img src="Images/flashCard3IMG.png" alt="Jhon Brix's Photo" class="flash-card-image card3">
+            <div class="flash-card-text">
+                <h2>What's Next?</h2>
+                <p>
+                    I'm still exploring opportunities, growing my skillset, and venturing into new challenges. Whether it's coding, designing, or solving real-world problems, 
+                    I’m excited about what the future holds!
+                </p>
+            </div>
         </div>
     </div>
+
+    <!-- Vertical Carousel -->
+    <div class="vertical-carousel">
+        <div class="carousel-item home-blip active" data-target="#home"></div>
+        <div class="carousel-item card1-blip" data-target="#card1"></div>
+        <div class="carousel-item card2-blip" data-target="#card2"></div>
+        <div class="carousel-item card3-blip" data-target="#card3"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

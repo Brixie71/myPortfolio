@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    background-color: #302b27;
     font-family: Arial, Helvetica, sans-serif;
     overflow-x: hidden;
 }
@@ -17,12 +16,75 @@ body {
     background-color: #302b27;
 }
 
+/* Animation for title */
+.animated-title {
+    font-size: 2.5rem;
+    margin: 0;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: #FBF5F3;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transform: translateY(-50px); /* Start from above */
+    animation: fadeInTitle 1s ease-in-out forwards;
+}
+/* When the title is in the viewport */
+.animated-title.show {
+    opacity: 1;
+    transform: translateY(0); /* End at normal position */
+}
+
+/* Keyframes for title animation */
+@keyframes fadeInTitle {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for name */
+.animated-name {
+    font-size: 2.5rem;
+    margin: 0;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: #FBF5F3;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeInName 1s ease-in-out forwards;
+}
+
+/* When the name is in the viewport */
+.animated-name.show {
+    opacity: 1;
+    transform: translateY(0); /* End at normal position */
+}
+
+/* Keyframes for name animation */
+@keyframes fadeInName {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Name Styling */
 .header-bar p {
     font-size: 0.8rem;
     font-family: 'Courier New', Courier, monospace;
     margin: 0 0 10px 0;
-    color: #ccc;
+    color: #FBF5F3;
 }
 
 /* Title Styling */
@@ -31,39 +93,37 @@ body {
     margin: 0;
     letter-spacing: 4px;
     text-transform: uppercase;
-    background: white;
+    background: #FBF5F3;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
-
 /* Flash Card Container */
 .content {
     width: 100%;
 }
 
-/* Flash Card Styling */
 .flash-card {
-    height: 40vh; 
+    height: 40vh;
     max-width: 90%;
     margin: 0 auto;
     margin-top: 325px;
     margin-bottom: 325px;
     padding: 20px;
-    background-color: white;
+    background-color: #FBF5F3;
     color: black;
     border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
     opacity: 0;
     transform: translateY(50px); 
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center; 
     gap: 20px;
-    visibility: hidden; 
+    visibility: hidden;
 }
+
 
 .flash-card.show {
     opacity: 1;
@@ -72,12 +132,43 @@ body {
 }
 
 /* Image in Flash Card */
-.flash-card-image {
+.flash-card-image.card1 {
     width: 100%;
     max-width: 300px;
     height: auto;
     border-radius: 10px;
+    border-style: solid;
+    border-block-width: 20px;
+    border-color: #650D1B;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 1);
     object-fit: cover;
+
+}
+
+/* Image in Flash Card */
+.flash-card-image.card2 {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    border-style: solid;
+    border-block-width: 20px;
+    border-color: #4059AD;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 1);
+    object-fit: cover;
+}
+
+/* Image in Flash Card */
+.flash-card-image.card3 {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    border-style: solid;
+    border-block-width: 20px;
+    border-color: #644536 ;
+    object-fit: cover;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 1);
 }
 
 /* Flash Card Text Styling */
@@ -117,4 +208,49 @@ body {
     .header-bar h1 {
         font-size: 3rem;
     }
+}
+
+/* Vertical Carousel */
+.vertical-carousel {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.carousel-item {
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.4;
+}
+
+.carousel-item.active {
+    opacity: 1;
+}
+
+/* Individual Blip Colors */
+.carousel-item:nth-child(1) {
+    background-color: #BA3F1D;
+}
+
+.carousel-item:nth-child(2) {
+    background-color: #B3001B;
+}
+
+.carousel-item:nth-child(3) {
+    background-color: #4059AD;
+}
+
+.carousel-item:nth-child(4) {
+    background-color: #644536;
+}
+
+.carousel-item:nth-child(5) {
+    background-color: #9C27B0;
 }
