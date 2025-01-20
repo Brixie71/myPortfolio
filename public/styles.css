@@ -14,8 +14,6 @@ body {
     text-align: center;
     color: white;
     background-color: #302b27;
-    padding-top: 20px;
-    padding-bottom: 20px;
 }
 
 /* Animation for title */
@@ -28,7 +26,8 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 0;
-    transform: translateY(-50px); /* Start from above */
+    transform: translateY(50px); /* Initial position below */
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
     animation: fadeInTitle 1s ease-in-out forwards;
 }
 /* When the title is in the viewport */
@@ -50,7 +49,7 @@ body {
 }
 
 /* Animation for name */
-.animated-name {
+.animated-welcome {
     font-size: 12.0rem;
     margin: 0;
     letter-spacing: 12px;
@@ -59,12 +58,13 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 0;
-    transform: translateY(-50px);
+    transform: translateY(50px); /* Initial position below */
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
     animation: fadeInName 1s ease-in-out forwards;
 }
 
 /* When the name is in the viewport */
-.animated-name.show {
+.animated-welcome.show {
     opacity: 1;
     transform: translateY(0); /* End at normal position */
 }

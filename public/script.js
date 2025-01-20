@@ -2,19 +2,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Title and Name Animations
 
-    const animatedElements = document.querySelectorAll('.animated-name, .animated-title');
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('show');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
+        // Select all elements with animation
+        const animatedElements = document.querySelectorAll('.animated-title, .animated-name');
 
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
+        // Function to handle intersection logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show'); // Add class when in view
+                } else {
+                    entry.target.classList.remove("show");
+                }
+            });
+        }, {
+            threshold: 0.2 // Element is considered "in view" when 20% is visible
+        });
+    
+        // Observe each element
+        animatedElements.forEach((el) => observer.observe(el));
 
     // Flash Card Animation
 
