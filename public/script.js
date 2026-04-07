@@ -25,21 +25,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const flashCards = document.querySelectorAll(".flash-card");
     const flashCardObserver = new IntersectionObserver(
-        (entries) => {
+        (entries, observer) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("show");
-                } else {
-                    entry.target.classList.remove("show");
-                }
+                if (!entry.isIntersecting) return;
+
+                entry.target.classList.add("show");
+                observer.unobserve(entry.target); // reveal once to avoid flicker when leaving the viewport
             });
         },
-        { threshold: 0.1 }
+        { threshold: 0.15 }
     );
 
-    flashCards.forEach((card) => {
-        flashCardObserver.observe(card);
-    });
+    flashCards.forEach((card) => flashCardObserver.observe(card));
 
     // Vertical Carousel Navigation
     const carouselItems = document.querySelectorAll(".carousel-item");
