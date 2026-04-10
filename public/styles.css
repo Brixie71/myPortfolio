@@ -4,7 +4,58 @@ body {
     overflow-x: hidden;
 }
 
+.navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #0f172a;
+    color: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spaceing: 1px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #e5e7eb;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #38bdf8;
+}
+
+/* MOBILE MENU */
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 .header-bar {
+    position: relative;
+    isolation: isolate;
     height: 100vh;
     width: 100%;
     display: flex;
@@ -13,7 +64,13 @@ body {
     align-items: center;
     text-align: center;
     color: white;
-    background-color: #302b27;
+    background-color: #302b27; /* fallback when image is missing */
+    background-image:
+        linear-gradient(0deg, rgba(48, 43, 39, 0.6), rgba(48, 43, 39, 0.6)),
+        url('Images/flashCardIMG.JPG');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /* Animation for title */
@@ -23,6 +80,7 @@ body {
     letter-spacing: 4px;
     text-transform: uppercase;
     background: #FBF5F3;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 0;
@@ -55,6 +113,7 @@ body {
     letter-spacing: 12px;
     text-transform: uppercase;
     background: #FBF5F3;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 0;
@@ -96,8 +155,14 @@ body {
     letter-spacing: 4px;
     text-transform: uppercase;
     background: #FBF5F3;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.header-bar p,
+.header-bar h1 {
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
 }
 
 /* Flash Card Container */
