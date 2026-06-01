@@ -1,0 +1,32 @@
+Jhon Brix Brion
+Software Quality Assurance Analyst | Junior Backend Developer
+Central Luzon, Philippines
+
+Contact
+- Email: jbb7102.work@gmail.com
+- GitHub: https://github.com/Brixie71
+- Facebook: https://facebook.com/jbb.7102
+- LinkedIn: Add public profile URL when finalized
+
+Professional Summary
+Quality-first software professional with interest in software QA, technical documentation, instructional materials, requirement review, and backend-aware testing. Computer Science graduate with supporting exposure to PHP, Laravel, Python, Java, APIs, React, Vue, PostgreSQL, MySQL, and Arduino-linked automation.
+
+Strengths
+- Test case writing
+- Requirement review
+- Bug reporting
+- Monitoring support
+- Technical documentation
+- Backend and API familiarity
+- Production-readiness mindset
+
+Technical Exposure
+- Frontend: React, Vue, JavaScript, HTML, CSS, Tailwind
+- Backend: PHP, Laravel, Python, Java, API endpoints
+- Databases and Systems: PostgreSQL, MySQL, Linux, Docker exposure
+- Hardware and IoT: Arduino, Raspberry Pi exposure, automation context
+
+Education
+- Bachelor of Science in Computer Science
+  Tarlac State University, College of Computer Studies
+  Batch 2024

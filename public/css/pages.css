@@ -1,0 +1,154 @@
+.hero-grid,
+.section-grid,
+.education-grid,
+.contact-layout {
+  display: grid;
+  gap: 2rem;
+}
+
+.hero-grid {
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  align-items: center;
+}
+
+.hero-copy h1 {
+  margin: 0;
+  font-size: clamp(2.7rem, 6vw, 4.8rem);
+  line-height: 0.96;
+}
+
+.hero-role {
+  margin: 1.2rem 0 0;
+  font-size: 1.2rem;
+  color: var(--text);
+  max-width: 32rem;
+}
+
+.hero-support {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  max-width: 34rem;
+}
+
+.hero-role,
+.hero-support,
+.summary-copy p {
+  text-align: justify;
+  text-align-last: left;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.75rem;
+}
+
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.hero-facts span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.9);
+  padding: 0.45rem 0.8rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.hero-visual {
+  align-self: stretch;
+}
+
+.portrait-hero {
+  aspect-ratio: 4 / 5;
+}
+
+.summary-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+  gap: 1.5rem;
+}
+
+.summary-copy {
+  display: grid;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.summary-copy p {
+  margin: 0;
+}
+
+.skill-groups,
+.experience-grid,
+.project-grid,
+.contact-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.skill-groups {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.experience-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.project-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.education-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
+.contact-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1080px) {
+  .experience-grid,
+  .skill-groups,
+  .project-grid,
+  .contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-grid,
+  .summary-layout,
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    max-width: 28rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-grid,
+  .experience-grid,
+  .skill-groups,
+  .project-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
