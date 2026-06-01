@@ -192,3 +192,72 @@ test("server serves the homepage and a project detail page", async (t) => {
 
   assert.equal(projectResponse.status, 200);
 });
+
+test("public pages include shared theme bootstrap and runtime script", () => {
+  const htmlFiles = [
+    "public/index.html",
+    "public/resume.html",
+    "public/projects/java-desktop-project.html",
+    "public/projects/object-detection-thesis.html",
+    "public/projects/qa-case-studies.html",
+    "public/projects/qa-case-study-template.html",
+  ];
+
+  htmlFiles.forEach((relativePath) => {
+    const html = fs.readFileSync(path.join(projectRoot, relativePath), "utf8");
+
+    assert.match(
+      html,
+      /localStorage\.getItem\("portfolio-theme"\)/,
+      `${relativePath} should include the theme bootstrap`,
+    );
+    assert.match(
+      html,
+      /<script type="module" src="(?:\.\/|\.\.\/)js\/main\.js"><\/script>/i,
+      `${relativePath} should load the shared runtime`,
+    );
+  });
+});
+
+test("theme runtime and compact panel styles are defined", () => {
+  const mainJs = fs.readFileSync(path.join(projectRoot, "public/js/main.js"), "utf8");
+  const themeJs = fs.readFileSync(path.join(projectRoot, "public/js/theme.js"), "utf8");
+  const mainCss = fs.readFileSync(path.join(projectRoot, "public/css/main.css"), "utf8");
+
+  assert.ok(
+    fs.existsSync(path.join(projectRoot, "public/js/theme.js")),
+    "public/js/theme.js should exist",
+  );
+  assert.match(mainJs, /import\s+\{\s*initTheme\s*\}\s+from\s+"\.\/theme\.js";/);
+  assert.match(mainJs, /initTheme\(\);/);
+  assert.match(themeJs, /class="theme-card"/);
+  assert.match(themeJs, /class="theme-handle"/);
+  assert.match(themeJs, /class="theme-mode-button"/);
+  assert.match(themeJs, />Theme</);
+  assert.match(themeJs, /&lt;/);
+  assert.match(themeJs, /class="theme-handle"[\s\S]*class="theme-card-body"/);
+  assert.doesNotMatch(themeJs, /class="theme-switch"/);
+  assert.doesNotMatch(themeJs, /class="theme-backdrop"/);
+  assert.match(mainCss, /:root\[data-theme="dark"\]/);
+  assert.match(mainCss, /\.theme-card\b/);
+  assert.match(mainCss, /\.theme-handle\b/);
+  assert.match(mainCss, /\.theme-mode-button\b/);
+  assert.match(mainCss, /\.theme-card\s*\{[^}]*display:\s*flex;[^}]*align-items:\s*center;[^}]*width:\s*calc\(var\(--theme-panel-width\)\s*\+\s*var\(--theme-handle-width\)\);/s);
+  assert.match(mainCss, /\.theme-card\s*\{[^}]*transform:\s*translateX\(var\(--theme-panel-width\)\);/s);
+  assert.match(mainCss, /\.theme-card-body\s*\{[^}]*width:\s*var\(--theme-panel-width\);/s);
+  assert.match(mainCss, /\.theme-card-body\s*\{[^}]*align-self:\s*flex-end;/s);
+  assert.match(mainCss, /--theme-handle-width:\s*2\.35rem/);
+  assert.match(mainCss, /--theme-panel-width:\s*min\(36\.5vw,\s*19\.45rem\)/);
+  assert.match(mainCss, /--theme-panel-offset:\s*max\(10vh,\s*1\.5rem\)/);
+  assert.match(mainCss, /\.theme-card\s*\{[^}]*bottom:\s*var\(--theme-panel-offset\);/s);
+  assert.match(mainCss, /\.theme-handle\s*\{[^}]*height:\s*var\(--theme-handle-width\);[^}]*font-size:\s*1\.125rem;/s);
+  assert.match(mainCss, /\.theme-card-title\s*\{[^}]*font-size:\s*1\.06rem;/s);
+  assert.match(mainCss, /\.theme-mode-button\s*\{[^}]*min-height:\s*2\.45rem;[^}]*padding:\s*0\.65rem\s+0\.8rem;/s);
+  assert.match(mainCss, /\.theme-card-body\s*\{[^}]*max-height:\s*calc\(100vh\s*-\s*\(var\(--theme-panel-offset\)\s*\*\s*2\)\);/s);
+  assert.match(mainCss, /\.theme-card-body\s*\{[^}]*overflow-y:\s*auto;/s);
+  assert.doesNotMatch(mainCss, /\.theme-handle\s*\{[^}]*box-shadow:/s);
+  assert.doesNotMatch(mainCss, /\.theme-card-body\s*\{[^}]*box-shadow:/s);
+  assert.doesNotMatch(mainCss, /\.theme-card-body\s*\{[^}]*visibility:\s*hidden;/s);
+  assert.doesNotMatch(mainCss, /\.theme-card-body\s*\{[^}]*opacity:\s*0;/s);
+  assert.match(mainCss, /right:\s*0;/);
+});

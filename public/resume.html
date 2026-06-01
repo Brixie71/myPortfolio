@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Snapshot | Jhon Brix Brion</title>
+    <script>
+      (() => {
+        try {
+          const storedTheme = window.localStorage.getItem("portfolio-theme");
+          const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          const theme = storedTheme === "light" || storedTheme === "dark" ? storedTheme : systemTheme;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch (error) {
+          const fallbackTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.theme = fallbackTheme;
+          document.documentElement.style.colorScheme = fallbackTheme;
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/components.css">
     <link rel="stylesheet" href="./css/pages.css">
@@ -158,5 +173,6 @@
         </div>
       </section>
     </main>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>
