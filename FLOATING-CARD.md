@@ -144,13 +144,13 @@ If you want to reuse the current pattern, copy the CSS in this shape and then re
 - `.theme-panel`
   - creates a fixed full-screen layer without blocking the page by default
 - `.theme-card`
-  - controls the slide-in container and the closed-state offset
+  - controls the slide-in container, the fixed bottom offset, and the centered handle alignment
 - `.theme-panel.is-open .theme-card`
   - moves the whole card into view
 - `.theme-handle`
   - defines the visible snapped control at the side of the page
 - `.theme-card-body`
-  - controls the panel width, max height, upward growth, and internal scrolling
+  - controls the panel width, max height, bottom alignment, upward growth, and internal scrolling
 - `.theme-card-body[aria-hidden="true"]`
   - disables interaction while closed
 - `.theme-card-title`
@@ -259,10 +259,200 @@ Best when:
 
 What to do:
 
-1. Copy the floating card CSS block from `public/css/main.css`
-2. Copy the module logic from `public/js/theme.js`
-3. Rename the classes and data attributes so they match the new purpose
-4. Replace the theme-specific content and button action
+1. Paste this CSS shell into your stylesheet, then rename the selectors for your feature:
+
+```css
+.theme-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  pointer-events: none;
+}
+
+.theme-card {
+  --theme-handle-width: 2.35rem;
+  --theme-panel-width: min(36.5vw, 19.45rem);
+  --theme-panel-offset: max(10vh, 1.5rem);
+  position: absolute;
+  right: 0;
+  bottom: var(--theme-panel-offset);
+  display: flex;
+  align-items: center;
+  width: calc(var(--theme-panel-width) + var(--theme-handle-width));
+  overflow: hidden;
+  pointer-events: auto;
+  transform: translateX(var(--theme-panel-width));
+  transition: transform 0.24s ease;
+}
+
+.theme-panel.is-open .theme-card {
+  transform: translateX(0);
+}
+
+.theme-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 var(--theme-handle-width);
+  width: var(--theme-handle-width);
+  height: var(--theme-handle-width);
+  border: 1px solid var(--card-border);
+  border-right: 0;
+  border-radius: 12px 0 0 12px;
+  background: var(--surface-strong);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.theme-card-body {
+  align-self: flex-end;
+  display: grid;
+  gap: 0.9rem;
+  width: var(--theme-panel-width);
+  max-width: calc(100vw - var(--theme-handle-width));
+  max-height: calc(100vh - (var(--theme-panel-offset) * 2));
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  padding: 1rem 1rem 1.08rem;
+  border: 1px solid var(--card-border);
+  border-right: 0;
+  border-radius: 12px 0 0 12px;
+  background: var(--surface-elevated);
+}
+
+.theme-card-body[aria-hidden="true"] {
+  pointer-events: none;
+}
+```
+
+2. Paste this JavaScript shell into your feature module, then keep the open/close logic intact:
+
+```js
+function createFeaturePanel() {
+  const existingPanel = document.querySelector("[data-feature-panel]");
+
+  if (existingPanel) {
+    return existingPanel;
+  }
+
+  const panel = document.createElement("div");
+  panel.className = "feature-panel";
+  panel.dataset.featurePanel = "";
+  panel.innerHTML = `
+    <aside class="feature-card" data-feature-card>
+      <button
+        class="feature-handle"
+        type="button"
+        aria-controls="feature-card-body"
+        aria-expanded="false"
+        aria-label="Open panel"
+        data-feature-handle
+      >
+        <span aria-hidden="true" data-feature-arrow>&lt;</span>
+      </button>
+      <div
+        class="feature-card-body"
+        id="feature-card-body"
+        aria-hidden="true"
+        data-feature-body
+      >
+        <h2 class="feature-card-title">Panel Title</h2>
+        <button class="feature-action-button" type="button" data-feature-action>
+          Primary action
+        </button>
+      </div>
+    </aside>
+  `;
+
+  document.body.append(panel);
+  return panel;
+}
+
+function setFeaturePanelOpen(panel, isOpen) {
+  const handle = panel.querySelector("[data-feature-handle]");
+  const body = panel.querySelector("[data-feature-body]");
+  const actionButton = panel.querySelector("[data-feature-action]");
+  const arrow = panel.querySelector("[data-feature-arrow]");
+
+  panel.classList.toggle("is-open", isOpen);
+  handle.setAttribute("aria-expanded", String(isOpen));
+  handle.setAttribute("aria-label", isOpen ? "Close panel" : "Open panel");
+  body.setAttribute("aria-hidden", String(!isOpen));
+  actionButton.tabIndex = isOpen ? 0 : -1;
+  arrow.textContent = isOpen ? ">" : "<";
+
+  if (isOpen) {
+    actionButton.focus();
+    return;
+  }
+
+  handle.focus();
+}
+
+export function initFeaturePanel() {
+  const panel = createFeaturePanel();
+  const handle = panel.querySelector("[data-feature-handle]");
+  const actionButton = panel.querySelector("[data-feature-action]");
+
+  setFeaturePanelOpen(panel, false);
+
+  handle.addEventListener("click", () => {
+    const isOpen = panel.classList.contains("is-open");
+    setFeaturePanelOpen(panel, !isOpen);
+  });
+
+  actionButton.addEventListener("click", () => {
+    // Replace this with the real feature action.
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && panel.classList.contains("is-open")) {
+      setFeaturePanelOpen(panel, false);
+    }
+  });
+}
+```
+
+3. Replace the feature-specific content strings inside the panel markup with your own title and button label:
+
+```html
+<h2 class="feature-card-title">Panel Title</h2>
+<button class="feature-action-button" type="button" data-feature-action>
+  Primary action
+</button>
+```
+
+Examples:
+
+```html
+<h2 class="help-card-title">Help</h2>
+<button class="help-action-button" type="button" data-help-action>
+  Open guide
+</button>
+```
+
+```html
+<h2 class="filter-card-title">Filters</h2>
+<button class="filter-action-button" type="button" data-filter-action>
+  Apply filters
+</button>
+```
+
+4. Replace the action callback with the real behavior for your project:
+
+```js
+actionButton.addEventListener("click", () => {
+  openHelpModal();
+});
+```
+
+```js
+actionButton.addEventListener("click", () => {
+  applyFilters();
+});
+```
+
+5. Rename the classes and data attributes consistently across CSS, markup, and JavaScript.
 
 Example rename:
 
@@ -355,7 +545,7 @@ The stable approach is:
 - the body does not run a separate hide animation
 - hidden state disables interaction through `aria-hidden` and pointer behavior, not abrupt visual removal
 - the handle is centered by the outer card layout
-- the body is aligned to the bottom of that layout so content growth happens upward
+- the body uses `align-self: flex-end` so content growth happens upward
 - the card uses a fixed bottom offset and a matching top limit through max height
 - the body uses internal scrolling instead of expanding off-screen
 
@@ -388,7 +578,7 @@ That is controlled by:
 
 - bottom anchoring on the outer card
 - centered alignment on the outer card
-- bottom alignment on the card body itself
+- `align-self: flex-end` on the card body
 - a max height on the body
 - `overflow-y: auto` on the body
 
@@ -434,6 +624,213 @@ Change:
 - title to `Debug`
 - action button to `Toggle diagnostics`
 - body content to environment or feature switches
+
+## Copy checklist
+
+If you are using this guide to move the floating card into another project, use this exact order:
+
+1. Paste this CSS shell into your stylesheet:
+
+```css
+.feature-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  pointer-events: none;
+}
+
+.feature-card {
+  --feature-handle-width: 2.35rem;
+  --feature-panel-width: min(36.5vw, 19.45rem);
+  --feature-panel-offset: max(10vh, 1.5rem);
+  position: absolute;
+  right: 0;
+  bottom: var(--feature-panel-offset);
+  display: flex;
+  align-items: center;
+  width: calc(var(--feature-panel-width) + var(--feature-handle-width));
+  overflow: hidden;
+  pointer-events: auto;
+  transform: translateX(var(--feature-panel-width));
+  transition: transform 0.24s ease;
+}
+
+.feature-panel.is-open .feature-card {
+  transform: translateX(0);
+}
+
+.feature-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 var(--feature-handle-width);
+  width: var(--feature-handle-width);
+  height: var(--feature-handle-width);
+  border: 1px solid var(--card-border);
+  border-right: 0;
+  border-radius: 12px 0 0 12px;
+  background: var(--surface-strong);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.feature-card-body {
+  align-self: flex-end;
+  display: grid;
+  gap: 0.9rem;
+  width: var(--feature-panel-width);
+  max-width: calc(100vw - var(--feature-handle-width));
+  max-height: calc(100vh - (var(--feature-panel-offset) * 2));
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  padding: 1rem 1rem 1.08rem;
+  border: 1px solid var(--card-border);
+  border-right: 0;
+  border-radius: 12px 0 0 12px;
+  background: var(--surface-elevated);
+}
+
+.feature-card-body[aria-hidden="true"] {
+  pointer-events: none;
+}
+```
+
+2. Paste this JavaScript shell into your module:
+
+```js
+function createFeaturePanel() {
+  const existingPanel = document.querySelector("[data-feature-panel]");
+
+  if (existingPanel) {
+    return existingPanel;
+  }
+
+  const panel = document.createElement("div");
+  panel.className = "feature-panel";
+  panel.dataset.featurePanel = "";
+  panel.innerHTML = `
+    <aside class="feature-card" data-feature-card>
+      <button
+        class="feature-handle"
+        type="button"
+        aria-controls="feature-card-body"
+        aria-expanded="false"
+        aria-label="Open panel"
+        data-feature-handle
+      >
+        <span aria-hidden="true" data-feature-arrow>&lt;</span>
+      </button>
+      <div
+        class="feature-card-body"
+        id="feature-card-body"
+        aria-hidden="true"
+        data-feature-body
+      >
+        <h2 class="feature-card-title">Panel Title</h2>
+        <button class="feature-action-button" type="button" data-feature-action>
+          Primary action
+        </button>
+      </div>
+    </aside>
+  `;
+
+  document.body.append(panel);
+  return panel;
+}
+
+function setFeaturePanelOpen(panel, isOpen) {
+  const handle = panel.querySelector("[data-feature-handle]");
+  const body = panel.querySelector("[data-feature-body]");
+  const actionButton = panel.querySelector("[data-feature-action]");
+  const arrow = panel.querySelector("[data-feature-arrow]");
+
+  panel.classList.toggle("is-open", isOpen);
+  handle.setAttribute("aria-expanded", String(isOpen));
+  handle.setAttribute("aria-label", isOpen ? "Close panel" : "Open panel");
+  body.setAttribute("aria-hidden", String(!isOpen));
+  actionButton.tabIndex = isOpen ? 0 : -1;
+  arrow.textContent = isOpen ? ">" : "<";
+
+  if (isOpen) {
+    actionButton.focus();
+    return;
+  }
+
+  handle.focus();
+}
+
+export function initFeaturePanel() {
+  const panel = createFeaturePanel();
+  const handle = panel.querySelector("[data-feature-handle]");
+  const actionButton = panel.querySelector("[data-feature-action]");
+
+  setFeaturePanelOpen(panel, false);
+
+  handle.addEventListener("click", () => {
+    const isOpen = panel.classList.contains("is-open");
+    setFeaturePanelOpen(panel, !isOpen);
+  });
+
+  actionButton.addEventListener("click", () => {
+    // Replace this with the real feature action.
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && panel.classList.contains("is-open")) {
+      setFeaturePanelOpen(panel, false);
+    }
+  });
+}
+```
+
+3. Replace this default panel content:
+
+```html
+<h2 class="feature-card-title">Panel Title</h2>
+<button class="feature-action-button" type="button" data-feature-action>
+  Primary action
+</button>
+```
+
+4. Use one of these replacements:
+
+```html
+<h2 class="help-card-title">Help</h2>
+<button class="help-action-button" type="button" data-help-action>
+  Open guide
+</button>
+```
+
+```html
+<h2 class="filter-card-title">Filters</h2>
+<button class="filter-action-button" type="button" data-filter-action>
+  Apply filters
+</button>
+```
+
+5. Replace this placeholder callback:
+
+```js
+actionButton.addEventListener("click", () => {
+  // Replace this with the real feature action.
+});
+```
+
+6. Use a real callback like one of these:
+
+```js
+actionButton.addEventListener("click", () => {
+  openHelpModal();
+});
+```
+
+```js
+actionButton.addEventListener("click", () => {
+  applyFilters();
+});
+```
+
+7. Rename every selector and data attribute so the CSS, markup, and JavaScript all match.
 
 ## JavaScript adaptation checklist
 
